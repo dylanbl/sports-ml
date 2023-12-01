@@ -1,14 +1,13 @@
 import requests
 import pandas as pd
-from data.teamHeaders import teamHeaders
-from data.gameHeaders import gameHeaders
+from headers.headers import teamHeaders, gameHeaders, playerHeaders
 from classes.Team import Team
 
 def downloadRawData(url: str, path: str): 
     resp = requests.get(url)
 
     with open(path, 'w') as fout: 
-        fout.write(resp.text)
+        fout.write(str(resp.content))
         fout.close()
 
 def combineDataWithHeaders(source: str, destination: str, headers: list): 
@@ -19,16 +18,21 @@ def combineDataWithHeaders(source: str, destination: str, headers: list):
 
 
 def getTeamStats(): 
-    downloadRawData('https://barttorvik.com/team-tables_each.php?csv=1',
-                    'data/team/teamStats.csv')
+    #downloadRawData('https://barttorvik.com/team-tables_each.php?csv=1',
+    #                'data/team/teamStats.csv')
 
-    combineDataWithHeaders('data/team/teamStats.csv', teamHeaders, 
-                           'data/team/teamData.csv')
-def getGameStats(): 
-    downloadRawData('https://barttorvik.com/team-tables_each.php?csv=1',
-                    'data/games/gameStats.csv')
-
-    combineDataWithHeaders('data/games/gameStats.csv', gameHeaders, 
-                           'data/games/gameData.csv')
+    combineDataWithHeaders('data/team/teamStats.csv', 'data/team/teamData.csv',
+                           teamHeaders)
     
-getGameStats()
+def getGameStats(): 
+    #downloadRawData('https://barttorvik.com/team-tables_each.php?csv=1',
+    #                'data/game/gameStats.csv')
+
+    combineDataWithHeaders('data/game/gameStats.csv', 'data/game/gameData.csv',
+                           gameHeaders)
+
+def getPlayerStats(): 
+    combineDataWithHeaders('data/player/playerStats.csv', 'data/player/playerData.csv',
+                           playerHeaders)
+    
+getPlayerStats()
