@@ -41,8 +41,7 @@ matchupHeaders = [
     'time'
 ]
 
-def main(): 
-    """
+def advStatsData(): 
     url = 'https://www.sports-reference.com/cbb/seasons/men/2024-advanced-school-stats.html'
     res = requests.get(url)
     soup = BeautifulSoup(res.content, 'html.parser')
@@ -70,8 +69,8 @@ def main():
 
     df = df.drop(columns=['wins_conf', 'losses_conf'], axis=1)
     df.to_csv('data/cbbRef/teamAdvStats.csv', index=False)
-    """
 
+def matchupData(): 
     today = datetime.date.today()
     day = today.day
     month = today.month
@@ -100,7 +99,10 @@ def main():
         df.loc[len(df)] = game
     
     df.to_csv('data/cbbRef/matchups.csv', index=False)
-            
+
+def main(): 
+    advStatsData()
+    matchupData()
 
 if __name__ == "__main__": 
     main()
